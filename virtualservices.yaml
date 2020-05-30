@@ -1,0 +1,66 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: customer-details-virtualservice
+spec:
+  hosts:
+    - "*"
+  gateways:
+    - http-gateway
+  http:
+    - match:
+        - uri:
+            prefix: /customers/
+      route:
+        - destination:
+            host: customer-details-service
+            port:
+              number: 8082
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: product-catalogue-virtualservice
+spec:
+  hosts:
+    - "*"
+  gateways:
+    - http-gateway
+  http:
+    - match:
+        - uri:
+            prefix: /offer/
+      route:
+        - destination:
+            host: product-catalogue-service
+            port:
+              number: 8081
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: order-taking-virtualservice
+spec:
+  hosts:
+    - "*"
+  gateways:
+    - http-gateway
+  http:
+    - match:
+        - uri:
+            exact: /auth/test
+        - uri:
+            prefix: /auth/
+        - uri:
+            prefix: /costumer/
+        - uri:
+            prefix: /orderinfo/
+        - uri:
+            prefix: /order/
+        - uri:
+            prefix: /agent/
+      route:
+        - destination:
+            host: auth-service
+            port:
+              number: 8080

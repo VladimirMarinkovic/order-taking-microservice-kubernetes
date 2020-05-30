@@ -1,0 +1,45 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: order-taking-service
+  datasource:
+    url: jdbc:mysql://${RDS_HOSTNAME:localhost}:${RDS_PORT:3306}/${RDS_DB_NAME:ordertaking}
+#    username: ${RDS_USERNAME:ordertaking_user}
+#    password: ${RDS_PASSWORD:ordertaking_password}
+    username: ${RDS_USERNAME:root}
+    password: ${RDS_PASSWORD:}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL57Dialect
+  h2:
+    console:
+      enabled: true
+
+  mail:
+    host: smtp.mailtrap.io
+    port: 2525
+    username: a59c1782c132b0
+    password: cacc9e27d52950
+
+twilio:
+  account_sid: AC0bb5729c6a17e8d5111f8c20fa25a8ba
+  auth_token: 833d744d6e1acd36b404ef78efccf845
+  trial_number: +16292098657
+
+
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 6000
+        readTimeout: 6000
+  hystrix:
+    enabled: true
+

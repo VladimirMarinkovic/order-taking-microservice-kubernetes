@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: order-taking-service-v1
+  labels:
+    app: order-taking-service
+    version: v1
+spec:
+  replicas: 1
+  minReadySeconds: 45
+  selector:
+    matchLabels:
+      app: order-taking-service
+      version: v1
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: order-taking-service
+        version: v1
+    spec:
+      containers:
+      - image: exxperiment899/order-taking-service:0.0.2-SNAPSHOT
+        imagePullPolicy: Always
+        name: order-taking-service
+        env:
+        - name: RDS_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: RDS_PASSWORD
+              name: order-taking-service-secrets
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: order-taking-service
+  name: order-taking-service
+  namespace: default
+spec:
+#  type: LoadBalancer
+  ports:
+    - port: 8080
+      protocol: TCP
+      targetPort: 8080
+  selector:
+    app: order-taking-service
+  sessionAffinity: None
