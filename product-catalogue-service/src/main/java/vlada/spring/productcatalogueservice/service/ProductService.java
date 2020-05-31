@@ -27,6 +27,7 @@ public class ProductService {
     }
 
 
+
     public ProductDto mapProductToProductDto(Product product) {
         return ProductDto.builder()
                 .productId(product.getId().toString())
@@ -46,7 +47,6 @@ public class ProductService {
         Product product = optionalProduct.orElseThrow(IllegalArgumentException::new);
         return mapProductToProductDto(product);
     }
-
 
 
 
