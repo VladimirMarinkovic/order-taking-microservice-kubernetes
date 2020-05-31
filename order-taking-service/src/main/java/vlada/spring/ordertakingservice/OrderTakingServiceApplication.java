@@ -46,5 +46,16 @@ public class OrderTakingServiceApplication extends SpringBootServletInitializer 
                     .build();
             authService.registerUser(userRegistrationRequest1);
         }
+
+
+        if(!userRepository.existsByUserName("user")) {
+            UserRegistrationRequest userRegistrationRequest1 = UserRegistrationRequest.builder()
+                    .userName("user")
+                    .password("1234")
+                    .confirmPassword("1234")
+                    .email("user@mail.com")
+                    .build();
+            authService.registerUser(userRegistrationRequest1);
+        }
     }
 }
